@@ -2,18 +2,18 @@ import numpy
 import time
 import os
 import random
+import copy
 class LifeGame(object):
     def __init__(self,shape=(15,15)):
         '''size is a tuple(a,b),a is width,b is length'''
         self._map = numpy.array([[1 if random.randint(0,100) >80 else 0 for i in range(shape[0])] for j in range(shape[1])])
         self._map.shape = shape
         self.shape = shape
-        self.draw_map = [['▇' for i in range(shape[0])] for j in range(shape[1])]
-        self._next_map = self._map
+        self.draw_map = [[' ' for i in range(shape[0])] for j in range(shape[1])]
+        self._next_map = numpy.zeros(shape)
         self.nextxy = [[0,1],[1,0],[-1,0],[0,-1],[-1,1],[1,-1],[1,1],[-1,-1]]
     def next_map(self):
         '''calc the next map'''
-        self._next_map = self._map
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
                 cnt1 = 0
@@ -28,12 +28,11 @@ class LifeGame(object):
                 elif cnt1 == 2:
                     self._next_map[i][j] = self._map[i][j]
                 else:
-                    self._next_map[i][j] = 0 
-                
+                    self._next_map[i][j] = 0  
                 if self._next_map[i][j] == 0:
                     self.draw_map[i][j] = '.'
                 else: self.draw_map[i][j] = '▇'
-        self._map = self._next_map
+        self._map = copy.deepcopy(self._next_map)
         return self.draw_map 
                 
     def draw(self,mp,x=15,y=15):
