@@ -45,6 +45,7 @@ class LifeGame(object):
         os.system('clear')
         self.draw(self.next_map())
         time.sleep(sleeptime)  
+
 if __name__ == '__main__':
     lifegame = LifeGame()
     while True:
